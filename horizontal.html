@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Horizontal and Vertical Scroll</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #scroll-content {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            border: 1px solid black;
+            padding: 10px;
+        }
+        .section {
+            display: block;
+            white-space: nowrap;
+            margin-bottom: 10px; /* Added to separate sections */
+        }
+        .item {
+            display: inline-block;
+            width: 300px; /* Adjust item width as needed */
+            height: 500px; /* Adjust item height as needed */
+            border: 1px solid gray;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="scroll-content">
+        <div class="section">
+            <div class="item">a</div>
+            <div class="item">b</div>
+            <div class="item">c</div>
+            <div class="item">d</div>
+        </div>
+        <div class="section">
+            <div class="item">a</div>
+            <div class="item">b</div>
+            <div class="item">c</div>
+            <div class="item">d</div>
+        </div>
+        <div class="section">
+            <div class="item">a</div>
+            <div class="item">b</div>
+            <div class="item">c</div>
+            <div class="item">d</div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            const object = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
+            const scrollContent = document.getElementById("scroll-content");
+
+            var checkForNewDiv = function () {
+                // Select all sections
+                var sections = scrollContent.querySelectorAll(".section");
+
+                // Iterate over each section
+                sections.forEach(section => {
+                    // Get the last item in the section
+                    var lastDivHorizontal = section.querySelector("div.item:last-child");
+                    var lastDivOffsetRight = lastDivHorizontal.offsetLeft + lastDivHorizontal.clientWidth;
+                    var pageOffsetRight = scrollContent.scrollLeft + scrollContent.clientWidth;
+
+                    // Check for scrolling to the right - Pros dexia
+                    if (pageOffsetRight > lastDivOffsetRight - 10) {
+                        var newDivRight = document.createElement("div");
+                        newDivRight.className = 'item';
+                        newDivRight.innerHTML = "test";
+                        section.appendChild(newDivRight);
+                    }
+
+                    // Get the first item in the section
+                    var firstDivHorizontal = section.querySelector("div.item:first-child");
+                    var firstDivOffsetLeft = firstDivHorizontal.offsetLeft;
+                    var pageOffsetLeft = scrollContent.scrollLeft;
+
+                    // Check for scrolling to the left - Pros aristera
+                    if (pageOffsetLeft < firstDivOffsetLeft + 10) {
+                        var newDivLeft = document.createElement("div");
+                        newDivLeft.className = 'item';
+                        newDivLeft.innerHTML = "test";
+                        section.insertBefore(newDivLeft, section.firstChild);
+                        scrollContent.scrollLeft += newDivLeft.clientWidth + 10;
+                    }
+                });
+
+                // Check for scrolling to the bottom - Pros kato
+                var lastDivVertical = scrollContent.querySelector("div.section:last-child div.item:last-child");
+                var lastDivOffsetBottom = lastDivVertical.offsetTop + lastDivVertical.clientHeight;
+                var pageOffsetBottom = scrollContent.scrollTop + scrollContent.clientHeight;
+
+                if (pageOffsetBottom > lastDivOffsetBottom - 10) {
+                    var newSectionBottom = document.createElement("div");
+                    newSectionBottom.className = 'section';
+                    for (let i = 0; i < 4; i++) {  // Assuming you want to add 4 new items
+                        var newDivBottom = document.createElement("div");
+                        newDivBottom.className = 'item';
+                        newDivBottom.innerHTML = "test";
+                        newSectionBottom.appendChild(newDivBottom);
+                    }
+                    scrollContent.appendChild(newSectionBottom);
+                }
+
+                // Check for scrolling to the top - Pros pano
+                var firstDivVertical = scrollContent.querySelector("div.section:first-child div.item:first-child");
+                var firstDivOffsetTop = firstDivVertical.offsetTop;
+                var pageOffsetTop = scrollContent.scrollTop;
+
+                if (pageOffsetTop < firstDivOffsetTop + 10) {
+                    var newSectionTop = document.createElement("div");
+                    newSectionTop.className = 'section';
+                    for (let i = 0; i < 4; i++) {  // Assuming you want to add 4 new items
+                        var newDivTop = document.createElement("div");
+                        newDivTop.className = 'item';
+                        newDivTop.innerHTML = "test";
+                        newSectionTop.appendChild(newDivTop);
+                    }
+                    scrollContent.insertBefore(newSectionTop, scrollContent.firstChild);
+                    scrollContent.scrollTop += newSectionTop.clientHeight + 10;
+                }
+            };
+
+            // Attach the scroll event listener
+            scrollContent.addEventListener("scroll", function (event) {
+                checkForNewDiv();
+            });
+
+            // Initial check
+            checkForNewDiv();
+        });
+    </script>
+</body>
+</html>
