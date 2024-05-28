@@ -10,10 +10,6 @@
     <div id="scroll-content">
         <!-- Initial content -->
         <div class="item" style="display: none;"></div>
-        <div id="scroll-content">
-            <!-- Initial content -->
-            <div class="item" style="display: none;"></div>
-        </div>
     </div>
 </body>
 
@@ -45,12 +41,13 @@
         var lastDivOffset = lastDiv.offsetTop + lastDiv.clientHeight;
         var pageOffset = maindiv.offsetTop + maindiv.clientHeight;   
         if (pageOffset > lastDivOffset - 10) {
+            /*
             var randomIndex = Math.floor(Math.random() * 5) +1; // Generate random index
             var selectedBox = boxes[randomIndex]; // Get the array at the random index
-            var newDiv = document.createElement("div");
             newDiv.style.width = selectedBox[0]; 
             newDiv.style.height = selectedBox[0]; 
-            newDiv.style.background = selectedBox[1];
+            newDiv.style.background = selectedBox[1]; */
+            var newDiv = document.createElement("div");
             document.getElementById("scroll-content").appendChild(newDiv);
             checkForNewDiv();
         }

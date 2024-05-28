@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinite Horizontal and Vertical Scroll</title>
     <style>
+        html,body{
+            height: 100%;
+        }
         #scroll-content {
-            width: calc(100% - 20px);
-            height: calc(100% - 20px);
+            width: 100%;
+            height: 100%;
             overflow: auto;
             border: 1px solid black;
             white-space: nowrap; /* Prevent line breaks for horizontal scrolling */
@@ -15,8 +18,8 @@
         }
         .item {
             display: inline-block;
-            width: 100px; /* Adjust item width as needed */
-            height: 100px; /* Adjust item height as needed */
+            width: 300px; /* Adjust item width as needed */
+            height: 300px; /* Adjust item height as needed */
             border: 1px solid gray;
             margin: 5px;
         }
@@ -29,16 +32,19 @@
         <div class="item">b</div>
         <div class="item">c</div>
         <div class="item">d</div>
-        <div class="item">e</div>
-        <div class="item">f</div>
-        <div class="item">g</div>
-        <div class="item">h</div>
-        <div class="item">i</div>
-        <div class="item">j</div>
-        <div class="item">k</div>
-        <div class="item">l</div>
-    </div>
+        <br>
+        <div class="item">a</div>
+        <div class="item">b</div>
+        <div class="item">c</div>
+        <div class="item">d</div>
+        <br>
+        <div class="item">a</div>
+        <div class="item">b</div>
+        <div class="item">c</div>
+        <div class="item">d</div>
 
+    </div>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function(event) { 
             const object = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
