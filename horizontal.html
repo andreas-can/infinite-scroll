@@ -9,6 +9,7 @@
             height: 100%;
             margin: 0;
             padding: 0;
+            background-color: azure;
         }
         #scroll-content {
             width: 100%;
@@ -26,8 +27,9 @@
             display: inline-block;
             width: 300px; /* Adjust item width as needed */
             height: 500px; /* Adjust item height as needed */
-            border: 1px solid gray;
-            margin: 5px;
+            margin: 15px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
@@ -55,72 +57,104 @@
     
     <script>
         document.addEventListener("DOMContentLoaded", function(event) { 
-            const object = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
+
+            const boxes = {
+            1:["180px", "url(./images/tinos180.jpeg" ],
+            2:["180px", "url(./images/tinos180_2.jpeg" ],
+            3:["320px", "url(./images/tinos318.jpg)" ],
+            4:["500px", "url(./images/tinos500.jpg)" ],
+            5:["1080px", "url(./images/tinos1080.jpg)" ],
+
+        }
+
             const scrollContent = document.getElementById("scroll-content");
 
-            var checkForNewDiv = function () {
+            const checkForNewDiv = function () {
                 // Select all sections
-                var sections = scrollContent.querySelectorAll(".section");
+                const sections = scrollContent.querySelectorAll(".section");
 
                 // Iterate over each section
                 sections.forEach(section => {
-                    // Get the last item in the section
-                    var lastDivHorizontal = section.querySelector("div.item:last-child");
-                    var lastDivOffsetRight = lastDivHorizontal.offsetLeft + lastDivHorizontal.clientWidth;
-                    var pageOffsetRight = scrollContent.scrollLeft + scrollContent.clientWidth;
+                    let randomIndex = Math.floor(Math.random() * 4) +1; // Generate random index
+                    let selectedBox = boxes[randomIndex]; // Get the array at the random index
 
-                    // Check for scrolling to the right - Pros dexia
+                    // Get the last item in the section
+                    const lastDivHorizontal = section.querySelector("div.item:last-child");
+                    const lastDivOffsetRight = lastDivHorizontal.offsetLeft + lastDivHorizontal.clientWidth;
+                    const pageOffsetRight = scrollContent.scrollLeft + scrollContent.clientWidth;
+
+                    // Check for scrolling to the right
                     if (pageOffsetRight > lastDivOffsetRight - 10) {
-                        var newDivRight = document.createElement("div");
+                        const newDivRight = document.createElement("div");
                         newDivRight.className = 'item';
-                        newDivRight.innerHTML = "test";
+                        newDivRight.style.width = selectedBox[0]
+                        newDivRight.style.height = selectedBox[0]
+                        newDivRight.style.background = selectedBox[1]
                         section.appendChild(newDivRight);
                     }
 
                     // Get the first item in the section
-                    var firstDivHorizontal = section.querySelector("div.item:first-child");
-                    var firstDivOffsetLeft = firstDivHorizontal.offsetLeft;
-                    var pageOffsetLeft = scrollContent.scrollLeft;
+                    const firstDivHorizontal = section.querySelector("div.item:first-child");
+                    const firstDivOffsetLeft = firstDivHorizontal.offsetLeft;
+                    const pageOffsetLeft = scrollContent.scrollLeft;
 
-                    // Check for scrolling to the left - Pros aristera
+                    randomIndex = Math.floor(Math.random() * 4) +1; // Generate random index
+                    selectedBox = boxes[randomIndex]; // Get the array at the random index
+
+                    // Check for scrolling to the left
                     if (pageOffsetLeft < firstDivOffsetLeft + 10) {
-                        var newDivLeft = document.createElement("div");
+                        const newDivLeft = document.createElement("div");
                         newDivLeft.className = 'item';
-                        newDivLeft.innerHTML = "test";
+                        newDivLeft.style.width = selectedBox[0]; 
+                        newDivLeft.style.height = selectedBox[0]; 
+                        newDivLeft.style.background = selectedBox[1]; 
                         section.insertBefore(newDivLeft, section.firstChild);
                         scrollContent.scrollLeft += newDivLeft.clientWidth + 10;
                     }
                 });
 
-                // Check for scrolling to the bottom - Pros kato
-                var lastDivVertical = scrollContent.querySelector("div.section:last-child div.item:last-child");
-                var lastDivOffsetBottom = lastDivVertical.offsetTop + lastDivVertical.clientHeight;
-                var pageOffsetBottom = scrollContent.scrollTop + scrollContent.clientHeight;
+                // Check for scrolling to the bottom
+                const lastDivVertical = scrollContent.querySelector("div.section:last-child div.item:last-child");
+                const lastDivOffsetBottom = lastDivVertical.offsetTop + lastDivVertical.clientHeight;
+                const pageOffsetBottom = scrollContent.scrollTop + scrollContent.clientHeight;
 
                 if (pageOffsetBottom > lastDivOffsetBottom - 10) {
-                    var newSectionBottom = document.createElement("div");
+                    const newSectionBottom = document.createElement("div");
                     newSectionBottom.className = 'section';
                     for (let i = 0; i < 4; i++) {  // Assuming you want to add 4 new items
-                        var newDivBottom = document.createElement("div");
+
+                        randomIndex = Math.floor(Math.random() * 4) +1; // Generate random index
+                        selectedBox = boxes[randomIndex]; // Get the array at the random index
+
+
+                        const newDivBottom = document.createElement("div");
                         newDivBottom.className = 'item';
-                        newDivBottom.innerHTML = "test";
+                        newDivBottom.style.width = selectedBox[0];
+                        newDivBottom.style.height = selectedBox[0];
+                        newDivBottom.style.background = selectedBox[1];
                         newSectionBottom.appendChild(newDivBottom);
                     }
                     scrollContent.appendChild(newSectionBottom);
                 }
 
-                // Check for scrolling to the top - Pros pano
-                var firstDivVertical = scrollContent.querySelector("div.section:first-child div.item:first-child");
-                var firstDivOffsetTop = firstDivVertical.offsetTop;
-                var pageOffsetTop = scrollContent.scrollTop;
+                // Check for scrolling to the top
+                const firstDivVertical = scrollContent.querySelector("div.section:first-child div.item:first-child");
+                const firstDivOffsetTop = firstDivVertical.offsetTop;
+                const pageOffsetTop = scrollContent.scrollTop;
 
                 if (pageOffsetTop < firstDivOffsetTop + 10) {
-                    var newSectionTop = document.createElement("div");
+                    const newSectionTop = document.createElement("div");
                     newSectionTop.className = 'section';
-                    for (let i = 0; i < 4; i++) {  // Assuming you want to add 4 new items
-                        var newDivTop = document.createElement("div");
+                    for (let i = 0; i < 4; i++) { //Adding 4 new items
+
+                        randomIndex = Math.floor(Math.random() * 4) +1; // Generate random index
+                        selectedBox = boxes[randomIndex]; // Get the array at the random index
+
+                        const newDivTop = document.createElement("div");
                         newDivTop.className = 'item';
-                        newDivTop.innerHTML = "test";
+                        newDivTop.style.width = selectedBox[0]
+                        newDivTop.style.height = selectedBox[0]
+                        newDivTop.style.background = selectedBox[0]
                         newSectionTop.appendChild(newDivTop);
                     }
                     scrollContent.insertBefore(newSectionTop, scrollContent.firstChild);
@@ -128,7 +162,7 @@
                 }
             };
 
-            // Attach the scroll event listener
+            // Scroll event listener
             scrollContent.addEventListener("scroll", function (event) {
                 checkForNewDiv();
             });
