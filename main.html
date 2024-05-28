@@ -24,7 +24,14 @@
 
     document.addEventListener("DOMContentLoaded", function(event) { 
 
-        const object = ["a", "b", "c", "d", "e", "f", "g", "l"]
+        const boxes = {
+            1:["180px", "url(./images/tinos180.jpeg" ],
+            2:["180px", "url(./images/tinos180_2.jpeg" ],
+            3:["320px", "url(./images/tinos318.jpg)" ],
+            4:["500px", "url(./images/tinos500.jpg)" ],
+            5:["1080px", "url(./images/tinos1080.jpg)" ],
+
+        }
 
         /*
         
@@ -41,8 +48,12 @@
         var lastDivOffset = lastDiv.offsetTop + lastDiv.clientHeight;
         var pageOffset = maindiv.offsetTop + maindiv.clientHeight;   
         if (pageOffset > lastDivOffset - 10) {
+            var randomIndex = Math.floor(Math.random() * 5) +1; // Generate random index
+            var selectedBox = boxes[randomIndex]; // Get the array at the random index
             var newDiv = document.createElement("div");
-            newDiv.innerHTML = `${object[Math.floor(Math.random() * 8)]}`
+            newDiv.style.width = selectedBox[0]; 
+            newDiv.style.height = selectedBox[0]; 
+            newDiv.style.background = selectedBox[1];
             document.getElementById("scroll-content").appendChild(newDiv);
             checkForNewDiv();
         }
