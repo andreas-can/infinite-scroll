@@ -36,22 +36,13 @@
 <body>
     <div id="scroll-content">
         <div class="section">
-            <div class="item">a</div>
-            <div class="item">b</div>
-            <div class="item">c</div>
-            <div class="item">d</div>
+            <div class="item" style="display: none;"></div>
         </div>
         <div class="section">
-            <div class="item">a</div>
-            <div class="item">b</div>
-            <div class="item">c</div>
-            <div class="item">d</div>
+            <div class="item" style="display: none;"></div>
         </div>
         <div class="section">
-            <div class="item">a</div>
-            <div class="item">b</div>
-            <div class="item">c</div>
-            <div class="item">d</div>
+            <div class="item" style="display: none;"></div>
         </div>
     </div>
     
@@ -109,7 +100,7 @@
                         newDivLeft.style.height = selectedBox[0]; 
                         newDivLeft.style.background = selectedBox[1]; 
                         section.insertBefore(newDivLeft, section.firstChild);
-                        scrollContent.scrollLeft += newDivLeft.clientWidth + 10;
+                        scrollContent.scrollLeft += newDivLeft.clientWidth + 2;
                     }
                 });
 
@@ -166,7 +157,6 @@
             scrollContent.addEventListener("scroll", function (event) {
                 checkForNewDiv();
             });
-
             // Initial check
             checkForNewDiv();
         });
