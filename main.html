@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Scroll!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="scroll-content">
+        <!-- Initial content -->
+        <div class="item">a</div>
+        <div class="item">b</div>
+        <div class="item">c</div>
+        <div class="item">d</div>
+        <div class="item">e</div>
+        <div class="item">f</div>
+        <div class="item">g</div>
+        <div class="item">h</div>
+    </div>
+</body>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function(event) { 
+
+        const object = ["a", "b", "c", "d", "e", "f", "g", "l"]
+
+        /*
+        
+        document.getElementById("scroll-content").addEventListener("scroll", function (event) {
+        var newDiv = document.createElement("div");
+       newDiv.innerHTML = `${object[Math.floor(Math.random() * 8 +1)]}`
+       document.getElementById("scroll-content").appendChild(newDiv);
+       
+         }); */
+
+        var checkForNewDiv = function () {
+        var lastDiv = document.querySelector("#scroll-content > div:last-child");
+        var maindiv = document.querySelector("#scroll-content");
+        var lastDivOffset = lastDiv.offsetTop + lastDiv.clientHeight;
+        var pageOffset = maindiv.offsetTop + maindiv.clientHeight;   
+        if (pageOffset > lastDivOffset - 10) {
+            var newDiv = document.createElement("div");
+            newDiv.innerHTML = `${object[Math.floor(Math.random() * 8)]}`
+            document.getElementById("scroll-content").appendChild(newDiv);
+            checkForNewDiv();
+        }
+        };
+
+        checkForNewDiv();
+
+    });
+
+</script>
+
+</html>

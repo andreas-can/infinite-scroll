@@ -1,0 +1,30 @@
+  #scroll-content > div {
+      background: #c0c0c0;
+      height: 300px;
+      width: 300px;
+      margin-bottom: 5px;
+  }
+#scroll-content
+{
+ height:100%;
+    overflow:auto;
+}
+
+.item {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 1px solid gray;
+  margin: 2px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
