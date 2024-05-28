@@ -5,111 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinite Horizontal and Vertical Scroll</title>
     <style>
-        html,body{
+        html, body {
             height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
         #scroll-content {
-            width: 100%;
+            overflow: auto; /* Changed from "scroll" to "auto" */
             height: 100%;
-            overflow: auto;
-            border: 1px solid black;
-            white-space: nowrap; /* Prevent line breaks for horizontal scrolling */
-            padding: 10px;
+            white-space: nowrap;
+        }
+        .row {
+            display: flex;
         }
         .item {
-            display: inline-block;
-            width: 300px; /* Adjust item width as needed */
-            height: 300px; /* Adjust item height as needed */
+            width: 600px;
+            min-width: 300px; /* Adjust item width as needed */
+            height: 600px; /* Adjust item height as needed */
+            min-height: 300px;
             border: 1px solid gray;
             margin: 5px;
         }
     </style>
 </head>
 <body>
-    <div id="scroll-content">
-        <!-- Initial content -->
-        <div class="item">a</div>
-        <div class="item">b</div>
-        <div class="item">c</div>
-        <div class="item">d</div>
-        <br>
-        <div class="item">a</div>
-        <div class="item">b</div>
-        <div class="item">c</div>
-        <div class="item">d</div>
-        <br>
-        <div class="item">a</div>
-        <div class="item">b</div>
-        <div class="item">c</div>
-        <div class="item">d</div>
+    <div id="scroll-content"></div>
 
-    </div>
-    
     <script>
         document.addEventListener("DOMContentLoaded", function(event) { 
-            const object = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
+            const theData = [["1","2","3","4","5"], ["6","7","8","9","10"],["11","12","13","14","15"],["16","17","18","19","20"]];
+            const numRows = theData.length;
+            const numCols = theData[0].length;
+            const space = 5;
+            const itemWidth = 60;
+            const itemHeight = 60;
+            const scrollContent = document.getElementById("scroll-content");
 
-            var checkForNewDiv = function () {
-                var scrollContent = document.getElementById("scroll-content");
+            function createItem(section, col) {
+                const div = document.createElement("div");
+                div.className = "item";
+                div.textContent = theData[section][col];
+                return div;
+            }
 
-                // Check for scrolling to the right
-                var lastDivHorizontal = scrollContent.querySelector("div.item:last-child");
-                var lastDivOffsetRight = lastDivHorizontal.offsetLeft + lastDivHorizontal.clientWidth;
-                var pageOffsetRight = scrollContent.scrollLeft + scrollContent.clientWidth;
+            function updateScrollContent() {
+                const contentWidth = scrollContent.scrollWidth;
+                const contentHeight = scrollContent.scrollHeight;
+                const centerOffsetX = (contentWidth - scrollContent.offsetWidth) / 2;
+                const centerOffsetY = (contentHeight - scrollContent.offsetHeight) / 2;
+                const currentOffsetX = scrollContent.scrollLeft;
+                const currentOffsetY = scrollContent.scrollTop;
+                const distanceFromCenterX = Math.abs(currentOffsetX - centerOffsetX);
+                const distanceFromCenterY = Math.abs(currentOffsetY - centerOffsetY);
 
-                if (pageOffsetRight > lastDivOffsetRight - 10) {
-                    var newDivRight = document.createElement("div");
-                    newDivRight.className = 'item';
-                    newDivRight.innerHTML = object[Math.floor(Math.random() * object.length)];
-                    scrollContent.appendChild(newDivRight);
+                if (distanceFromCenterX > contentWidth / 4) {
+                    scrollContent.scrollLeft = centerOffsetX;
                 }
-
-                // Check for scrolling to the left
-                var firstDivHorizontal = scrollContent.querySelector("div.item:first-child");
-                var firstDivOffsetLeft = firstDivHorizontal.offsetLeft;
-                var pageOffsetLeft = scrollContent.scrollLeft;
-
-                if (pageOffsetLeft < firstDivOffsetLeft + 10) {
-                    var newDivLeft = document.createElement("div");
-                    newDivLeft.className = 'item';
-                    newDivLeft.innerHTML = object[Math.floor(Math.random() * object.length)];
-                    scrollContent.insertBefore(newDivLeft, scrollContent.firstChild);
-                    scrollContent.scrollLeft += newDivLeft.clientWidth + 10;
+                if (distanceFromCenterY > contentHeight / 4) {
+                    scrollContent.scrollTop = centerOffsetY;
                 }
+            }
 
-                // Check for scrolling to the bottom
-                var lastDivVertical = scrollContent.querySelector("div.item:last-child");
-                var lastDivOffsetBottom = lastDivVertical.offsetTop + lastDivVertical.clientHeight;
-                var pageOffsetBottom = scrollContent.scrollTop + scrollContent.clientHeight;
-
-                if (pageOffsetBottom > lastDivOffsetBottom - 10) {
-                    var newDivBottom = document.createElement("div");
-                    newDivBottom.className = 'item';
-                    newDivBottom.innerHTML = object[Math.floor(Math.random() * object.length)];
-                    scrollContent.appendChild(newDivBottom);
+            function addItems() {
+                for (let section = 0; section < numRows; section++) {
+                    const rowDiv = document.createElement("div");
+                    rowDiv.className = "row";
+                    for (let col = 0; col < numCols; col++) {
+                        const item = createItem(section, col);
+                        rowDiv.appendChild(item);
+                    }
+                    scrollContent.appendChild(rowDiv);
                 }
+            }
 
-                // Check for scrolling to the top
-                var firstDivVertical = scrollContent.querySelector("div.item:first-child");
-                var firstDivOffsetTop = firstDivVertical.offsetTop;
-                var pageOffsetTop = scrollContent.scrollTop;
-
-                if (pageOffsetTop < firstDivOffsetTop + 10) {
-                    var newDivTop = document.createElement("div");
-                    newDivTop.className = 'item';
-                    newDivTop.innerHTML = object[Math.floor(Math.random() * object.length)];
-                    scrollContent.insertBefore(newDivTop, scrollContent.firstChild);
-                    scrollContent.scrollTop += newDivTop.clientHeight + 10;
-                }
-            };
-
-            // Attach the scroll event listener
-            document.getElementById("scroll-content").addEventListener("scroll", function (event) {
-                checkForNewDiv();
+            scrollContent.addEventListener("scroll", function(event) {
+                updateScrollContent();
             });
 
-            // Initial check
-            checkForNewDiv();
+            addItems();
         });
     </script>
 </body>
